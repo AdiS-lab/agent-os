@@ -1,179 +1,87 @@
-# Agent Operating Instructions
+# Agent Operating Contract
 
-## 1. Core Objective
+This file is the small, always-on contract for this repository. Keep it stable, factual, and concise.
 
-Produce correct, minimal, verifiable changes.
+## Priority
 
-Optimize for:
+- Follow the user's current request.
+- Follow this repository contract and any more-specific applicable instructions.
+- Never invent facts, APIs, files, commands, credentials, or requirements.
 
-1. Correctness
-2. Simplicity
-3. Maintainability
-4. Verification
-5. Speed
+## Before changing code
 
-Do not optimize for producing a large amount of code.
+- Inspect the relevant existing implementation first.
+- Identify the smallest set of files that can solve the request.
+- Reuse existing patterns and dependencies when appropriate.
+- Verify uncertain external behavior against current authoritative documentation.
+- Distinguish verified facts from assumptions.
 
----
+Do not scan the whole repository or read every document unless the task requires it.
 
-## 2. Before Acting
+## Scope
 
-Before modifying anything:
+- Make the smallest coherent change that satisfies the request.
+- Do not refactor unrelated code, add speculative abstractions, or introduce unnecessary dependencies.
+- Do not redesign architecture merely because an initial implementation path failed.
 
-1. Read `PROJECT.md`.
-2. Read `TASK.md`.
-3. Inspect the existing implementation relevant to the task.
-4. Identify the smallest set of files that need to change.
-5. Check existing patterns before introducing new ones.
-6. Identify external APIs, SDKs, or dependencies involved.
-7. Verify uncertain external behavior against current official documentation.
+## Execution
 
-Do not begin implementation based on assumptions that can be verified.
+Match the workflow to the task:
 
----
+- Small change: inspect → change → focused verification.
+- Feature/integration: inspect → resolve material unknowns → implement → verify.
+- Debugging: reproduce → isolate → fix root cause → regression-check.
+- Review/research: inspect evidence → analyze → report facts, uncertainty, and tradeoffs.
 
-## 3. Scope Control
+Do not perform a full plan ceremony for trivial work. For substantial work, make the implementation decisions explicit before committing to them.
 
-Only change what is necessary to complete the current task.
+## External boundaries
 
-Do not:
+For APIs, SDKs, libraries, cloud services, hardware, or platform behavior:
 
-- refactor unrelated code
-- rename things unnecessarily
-- introduce abstractions without a reason
-- add dependencies without justification
-- rewrite working systems
-- change architecture because of a minor error
-- "clean up" unrelated files
+- Prefer current official documentation.
+- Confirm the exact interface, version, authentication, environment restrictions, and required configuration.
+- Never manufacture plausible method names or configuration keys.
+- Record durable verified facts in `.agent/knowledge.md` when useful.
 
-If a larger architectural change appears necessary, stop and explain why.
+## Verification
 
----
+Code generation is not completion. Verify the behavior required by the task.
 
-## 4. Existing Code Comes First
+Before claiming completion:
 
-Before creating something new, determine whether the repository already has:
+- check acceptance criteria
+- run relevant verification
+- inspect the final diff
+- state any remaining limitation
 
-- an equivalent component
-- a utility
-- an existing API client
-- an established pattern
-- a configuration mechanism
-- an existing dependency that solves the problem
+For user-facing or external integrations, test the real flow when feasible rather than stopping at compilation or initialization.
 
-Prefer extending existing systems over creating parallel ones.
+## Continuity
 
----
+For multi-turn work, use `.agent/state.md` to preserve only material state: objective, completed work, active assumptions, blockers, identifiers, last verification, and next action.
 
-## 5. External Services
+Use:
 
-For external APIs, SDKs, libraries, or platforms:
+- `project.md` — stable project facts
+- `task.md` — current task and acceptance criteria
+- `.agent/state.md` — current working state
+- `.agent/decisions.md` — durable decisions
+- `.agent/knowledge.md` — verified reusable facts
+- `.agent/skills/` — specialized workflows
 
-Do not rely on memory when the behavior can be verified.
+Load these progressively; do not duplicate context across files.
 
-Verify:
+## Drift control
 
-- current API
-- authentication
-- required environment variables
-- browser/server restrictions
-- SDK version
-- initialization method
-- request/response format
-- relevant limitations
+If a failure invalidates an assumption, reassess the approach before adding complexity. Do not spiral into unrelated edits or a second architecture.
 
-Prefer official documentation.
+If the user starts a new request, do not continue an older task unless the new request clearly depends on it.
 
-Never invent an API method because it appears plausible.
+## Time and dates
 
----
+Do not store the current date/time in static instructions. When time matters, use runtime/session context or the model's current date awareness. Supply an explicit timezone only when the task depends on a non-UTC reference.
 
-## 6. Handling Problems
+## Security
 
-When something fails, classify the failure first:
-
-- implementation bug
-- incorrect assumption
-- missing requirement
-- external API difference
-- environment/configuration problem
-- architectural limitation
-
-Fix the actual cause.
-
-Do not respond to an error by randomly changing unrelated code.
-
-If solving the problem requires substantially changing the original plan, stop and reassess.
-
----
-
-## 7. Verification
-
-Never claim a task is complete merely because:
-
-- code was written
-- TypeScript compiles
-- a package installed
-- a request was constructed
-- a component rendered
-
-Verify the actual required behavior.
-
-Use the strongest available verification:
-
-- unit tests
-- integration tests
-- build
-- browser interaction
-- API request
-- screenshots
-- logs
-- manual end-to-end flow
-
----
-
-## 8. Completion
-
-Before reporting completion:
-
-1. Re-read the task requirements.
-2. Check each acceptance criterion.
-3. Run the relevant verification.
-4. Inspect failures.
-5. Fix failures.
-6. Verify again.
-
-Report:
-
-- what changed
-- files changed
-- verification performed
-- remaining limitations
-
-Never hide an unresolved failure.
-
----
-
-## 9. Communication
-
-Be concise.
-
-Do not narrate every tool call.
-
-When uncertainty materially affects implementation, state it explicitly.
-
-When the task is ambiguous, identify the ambiguity rather than silently choosing an interpretation that could change the architecture.
-
----
-
-## 10. Default Principle
-
-When uncertain:
-
-> Inspect before assuming.
->
-> Plan before implementing.
->
-> Verify before claiming.
->
-> Change less rather than more.
+Never commit or expose secrets. Treat production and destructive operations as higher-risk than local development.

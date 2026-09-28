@@ -1,73 +1,47 @@
-# Current Task
+# Active Task
+
+> Replace this file for the current piece of work. Keep it specific.
 
 ## Objective
 
-[One precise sentence describing what needs to happen.]
-
----
+[One sentence: what must be true when this task is finished?]
 
 ## Why
 
-[Why are we doing this?]
+[Why this task matters.]
 
----
+## Current state
 
-## Current State
+[What already exists and what is missing.]
 
-[What already exists?]
-
----
-
-## Required Behavior
+## Required behavior
 
 1. [behavior]
 2. [behavior]
 3. [behavior]
 
----
-
 ## Constraints
 
 - [constraint]
 - [constraint]
-- [constraint]
 
----
+## Non-goals
 
-## Non-Goals
+- [explicitly out of scope]
+- [explicitly out of scope]
 
-Do NOT:
+## Acceptance criteria
 
-- [thing]
-- [thing]
-- [thing]
-
----
-
-## Acceptance Criteria
-
-- [ ] ...
-- [ ] ...
-- [ ] ...
-- [ ] ...
-
----
+- [ ] [criterion]
+- [ ] [criterion]
+- [ ] [criterion]
 
 ## Verification
 
-The implementation must be tested by:
+[How the actual result will be checked. Prefer concrete commands and/or a real user flow.]
 
-1. [test]
-2. [test]
-3. [test]
+## Known unknowns
 
-Completion requires actual verification of the user-facing behavior, not merely compilation.
+- [question requiring investigation]
 
----
-
-## Known Unknowns
-
-- [question that needs investigation]
-- [question that needs investigation]
-
-Remove items once resolved.
+Remove an item once it is resolved and record durable facts in `.agent/knowledge.md` when useful.

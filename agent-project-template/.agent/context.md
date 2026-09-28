@@ -1,56 +1,46 @@
-# Context Rules
+# Context Policy
 
-## Principle
+## Goal
 
-More context is not necessarily better.
+Maximize useful context, not context volume.
 
-Load the minimum information required to make the current decision correctly.
+## Load order
 
----
+Prefer:
 
-## Priority
+1. current user request
+2. `task.md`
+3. relevant source/configuration
+4. `project.md` sections relevant to the task
+5. `.agent/state.md` for multi-turn work
+6. `.agent/decisions.md` when architecture is involved
+7. `.agent/knowledge.md` when a previously verified fact is relevant
+8. specialized skills/docs only when the task triggers them
 
-Use context in this order:
+## Progressive disclosure
 
-1. Current task
-2. Relevant source files
-3. Relevant project architecture
-4. Relevant decisions
-5. Relevant documentation
-6. Historical context
+Do not read every document at the start of every task.
 
-Do not load unrelated project history.
+Search first, then expand only the files or sections needed to answer the current question.
 
----
+## Compaction/long tasks
 
-## Source Selection
+Preserve these facts when context is compacted:
 
-Before reading large files or directories:
+- current objective
+- completed actions
+- active assumptions
+- important IDs/paths
+- tool/test outcomes
+- unresolved blockers
+- next concrete action
 
-1. identify likely relevant files
-2. inspect targeted sections
-3. expand context only when necessary
+## Separation
 
-Avoid dumping entire repositories into context.
-
----
-
-## Tool Output
-
-Prefer concise, relevant output.
-
-When command output is large:
-
-- identify the relevant error
-- inspect surrounding context
-- avoid repeatedly injecting irrelevant output
-
----
-
-## Historical Context
-
-Historical decisions are useful only when they affect the current implementation.
-
-Do not treat old decisions as immutable requirements.
-
-Current task requirements take precedence.
+- Instructions belong in `AGENTS.md`.
+- Stable facts belong in `project.md`.
+- Current task requirements belong in `task.md`.
+- Current factual state belongs in `.agent/state.md`.
+- Durable decisions belong in `.agent/decisions.md`.
+- Reusable verified facts belong in `.agent/knowledge.md`.
+- Specialized procedures belong in skills.

@@ -1,79 +1,58 @@
-# Verification Rules
+# Verification Standard
 
 ## Principle
 
-The implementation is not the result.
+The result is the verified behavior, not the generated code.
 
-The verified behavior is the result.
+## Match verification to risk
 
----
+### Low-risk/local
 
-## Verification Hierarchy
+- typecheck/build/lint where relevant
+- focused tests
 
-Use the strongest applicable verification.
+### Multi-file feature
 
-### Level 1 — Static
+- focused automated tests
+- build/typecheck
+- runtime smoke test
 
-- type checking
-- linting
-- build
+### External integration
 
-### Level 2 — Automated
+Verify the real interaction where possible:
 
-- unit tests
-- integration tests
-- API tests
+1. initialization/auth succeeds
+2. request/connection is made
+3. expected data or event crosses the boundary
+4. expected response is received
+5. user-visible behavior occurs
+6. failure states are handled
 
-### Level 3 — Runtime
+### UI work
 
-- start the application
-- inspect logs
-- exercise the feature
+Prefer browser/runtime inspection over reasoning from source alone.
 
-### Level 4 — End-to-End
+### Destructive/production work
 
-Perform the actual user flow.
+Verify target, scope, permissions, and rollback/recovery path before executing.
 
-Example:
+## Evidence rule
 
-User action
-→ application state
-→ network/API interaction
-→ external service
-→ response
-→ UI result
+Do not write:
 
----
+> "This should work."
 
-## External Integrations
+as a completion claim.
 
-For integrations with external services, successful initialization is NOT sufficient.
+Instead report what was actually observed:
 
-Verify the actual interaction.
+> "Ran X; observed Y; acceptance criterion Z passed."
 
-For example:
+## Final review
 
-Bad verification:
+Before completion:
 
-> "The ElevenLabs client initialized successfully."
-
-Good verification:
-
-> "Started the application, initiated a conversation, granted microphone access, spoke to the agent, confirmed agent audio, then terminated the session."
-
----
-
-## Failure Handling
-
-When verification fails:
-
-Do not report success.
-
-Record:
-
-- observed failure
-- likely cause
-- attempted correction
-- result after correction
-
-Continue until the acceptance criterion passes or clearly document why it cannot be verified.
+- inspect changed files
+- check for accidental edits
+- re-read acceptance criteria
+- run the relevant verification again if the last code change occurred after the previous verification
